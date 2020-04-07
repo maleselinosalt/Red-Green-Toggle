@@ -49,8 +49,8 @@
 
 #define SW1	     		GPIO_PIN_4		// PF4
 #define SW2      		GPIO_PIN_0		// PF0
-#define red_LED           	GPIO_PIN_1		// 0x02
-#define blue_LED          	GPIO_PIN_2		// 0x04
+#define red_LED     GPIO_PIN_1		// 0x02
+#define blue_LED    GPIO_PIN_2		// 0x04
 #define green_LED		GPIO_PIN_3		// 0x08
 
 //*****************************************************************************
@@ -127,28 +127,122 @@ int main(void)
 	
     while(1)
 		{
-			if(GPIOPinRead(GPIO_PORTF_BASE, SW2)==0x00) //SW2 is pressed, all off
+			if (GPIOPinRead(GPIO_PORTF_BASE, SW2)==0x00) //SW2 is pressed, all off
 				{
-					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+					
+					LED_data^=blue_LED;	
+					LED_data^=red_LED;
+					LED_data^=green_LED;
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
 					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+					c++; //c = 1
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	//blue LED on
+					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+					c++; //c = 2
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	//blue LED on
+					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED off
+					c++; //c = 3
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+					c++; //c = 4
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED off
+					c++; //c = 5
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	//blue LED on
+					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED off
+					c++; //c = 6
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					
+					GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+					GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED off
+					GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED off
+					c++;//c = 7
+					SysCtlDelay(2666667);	// about 0.5 second delay
+					c-=7;
 
 				}
+				
 			else
 				{
 					if(GPIOPinRead(GPIO_PORTF_BASE, SW1)==0x00) //SW1 is pressed 
 						{
-							GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
-							SysCtlDelay(2666667);	// about 0.5 second delay
-							LED_data^=green_LED;	// toggles green LED (PF3)
-							GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED on
+							switch(c)
+							{
+								LED_data^=blue_LED;	
+								LED_data^=red_LED;
+								LED_data^=green_LED;
+								
+								case 1:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00); // green LED off
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+									DelayInSec(0.5);
+								
+								case 2:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	//blue LED off
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+									DelayInSec(0.5);
+								
+								case 3:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	//blue LED off
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00); // green LED off
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED on
+									DelayInSec(0.5);
+								
+								case 4:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
+									DelayInSec(0.5);
+								
+								case 5:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00); // green LED off
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED on
+									DelayInSec(0.5);
+								
+								case 6:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	//blue LED off
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED on
+									DelayInSec(0.5);
+								
+								case 7:
+									GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	//blue LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED on
+									GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data);	// red LED on
+									DelayInSec(0.5);
+									
+							}
 						}
 					else //SW1 is not pressed, toggle red LED (PF3)
 						{
 							GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00);	// green LED off
+							GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	// green LED off
+
 							DelayInSec(0.5);   // about 0.5 second delay
 							LED_data^=red_LED; // bitwise XOR red LED (PF1)
 							GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data); // red LED on
 						}
-				}			
+				}		
+					
     }
 }
+
