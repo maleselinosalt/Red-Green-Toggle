@@ -189,8 +189,10 @@ int main(void)
 							break;}
 						
 				}
+				if(c>7){c=0;} else{a=c;}
+				
 
-				if(GPIOPinRead(GPIO_PORTF_BASE, SW1)==0x00) //SW1 is pressed 
+				if(GPIOPinRead(GPIO_PORTF_BASE, SW1)==0x00 && GPIOPinRead(GPIO_PORTF_BASE, SW2)!=0x00) //SW1 is pressed 
 					{
 						switch(c)
 						{
