@@ -191,7 +191,7 @@ int main(void)
 							break;}
 						
 				}
-				if(c>7){c=0;} else{a=c;}
+				if(c>4){c=0;} else{a=c;}
 				
 
 				if(GPIOPinRead(GPIO_PORTF_BASE, SW1)==0x00 && GPIOPinRead(GPIO_PORTF_BASE, SW2)!=0x00) //SW1 is pressed 
@@ -207,7 +207,7 @@ int main(void)
 								DelayInSec(0.5);   // about 0.5 second delay
 								LED_data^=blue_LED; // bitwise XOR red LED (PF1)
 								GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data); // blue LED on
-								break;
+								break; 
 							
 							case 2:
 								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// red LED off
@@ -216,7 +216,8 @@ int main(void)
 								DelayInSec(0.5);   // about 0.5 second delay
 								LED_data^=green_LED; // bitwise XOR red LED (PF1)
 								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // green LED on
-								break;
+								c=0;LED_data^=green_LED;
+								break; 
 							
 							case 3:
 								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00);	// green LED off
@@ -225,16 +226,17 @@ int main(void)
 								DelayInSec(0.5);   // about 0.5 second delay
 								LED_data^=red_LED; // bitwise XOR red LED (PF1)
 								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data); // red LED on
-								break;
+								break; 
 							
 							case 4:
 								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, 0x00);	// green LED off
 							
 								DelayInSec(0.5);   // about 0.5 second delay
 								LED_data^=green_LED; // bitwise XOR red LED (PF1)
+								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // red LED on
 								LED_data^=blue_LED;
 								GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	// green LED off
-								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // red LED on
+								
 								break;
 							
 							case 5:
@@ -242,19 +244,20 @@ int main(void)
 							
 								DelayInSec(0.5);   
 								LED_data^=red_LED; 
+								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data); 
 								LED_data^=blue_LED;
 								GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	
-								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data); 
 								break;
 							
 							case 6:
-								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, 0x00);	// green LED off
+								GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, 0x00);	// green LED off
 							
 								DelayInSec(0.5);   // about 0.5 second delay
 								LED_data^=red_LED; // bitwise XOR red LED (PF1)
-								LED_data^=blue_LED;
-								GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	// green LED off
 								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data); // red LED on
+								LED_data^=green_LED;
+								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data);	// green LED off
+								
 								break;
 							
 							case 7:
@@ -262,11 +265,11 @@ int main(void)
 							
 								DelayInSec(0.5);   // about 0.5 second delay
 								LED_data^=green_LED; // bitwise XOR red LED (PF1)
-								LED_data^=blue_LED;
-								LED_data^=red_LED;
 								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data);	// green LED off
+								LED_data^=blue_LED;
 								GPIOPinWrite(GPIO_PORTF_BASE, blue_LED, LED_data);	// green LED off
-								GPIOPinWrite(GPIO_PORTF_BASE, green_LED, LED_data); // red LED on
+								LED_data^=red_LED;
+								GPIOPinWrite(GPIO_PORTF_BASE, red_LED, LED_data); // red LED on
 								break;
 								
 						}
